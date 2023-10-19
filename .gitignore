@@ -1,0 +1,15 @@
+# Ignore environment variables
+env.ts
+
+# Ignore node_modules
+node_modules/
+
+# Ignore package locks
+package-lock.json
+yarn.lock
+
+# Ignore build artifacts
+build/
+
+# Ignore log files
+*.log
