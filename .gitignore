@@ -11,6 +11,9 @@ yarn.lock
 # Dump files
 dump.json
 
+# SurrealDb files
+surrealdb/
+
 # Ignore build artifacts
 build/
 
