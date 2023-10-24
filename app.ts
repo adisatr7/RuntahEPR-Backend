@@ -1,6 +1,6 @@
 import express from "express"
 import cors from "cors"
-import { initDB } from "./database/connection.js"
+import { initDB } from "./database/index.js"
 
 
 initDB()
