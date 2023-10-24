@@ -6,11 +6,9 @@
     "sourceMap": true,
     "outDir": "dist",
     "forceConsistentCasingInFileNames": true,
-    "strict": true,
+    "strict": true
   },
-  "include": [
-    "src/**/*"
-, "env.ts"  ],
+  "include": ["**/*"],
   "ts-node": {
     "esm": true,
     "experimentalSpecifierResolution": "node"
