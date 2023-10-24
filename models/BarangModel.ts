@@ -1,5 +1,5 @@
 export interface Barang {
-    kodeItem: string
+    kodeItem?: string
     barcode: string
     namaItem: string
     jenis: string
