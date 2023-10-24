@@ -1,12 +1,12 @@
 {
   "name": "runtah-epr-backend",
   "version": "1.0.0",
-  "main": "src/index.ts",
+  "main": "app.ts",
   "type": "module",
   "scripts": {
     "database": "surreal start --user root --pass root --log debug file://./database/surrealdb",
-    "backend": "tsx watch src/index.ts",
-    "start": "concurrently \"npm run database\" \"npm run backend\""
+    "backend": "tsx watch app.ts",
+    "start": "concurrently \"yarn database\" \"yarn backend\""
   },
   "author": "adisatr7",
   "license": "MIT",
