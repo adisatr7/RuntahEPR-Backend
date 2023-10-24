@@ -4,7 +4,7 @@
   "main": "app.ts",
   "type": "module",
   "scripts": {
-    "database": "surreal start --user root --pass root --log debug file://./database/surrealdb",
+    "database": "surreal start --user root --pass root --log error file://./database/surrealdb",
     "backend": "tsx watch app.ts",
     "start": "concurrently \"yarn database\" \"yarn backend\""
   },
