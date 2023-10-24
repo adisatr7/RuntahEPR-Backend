@@ -8,6 +8,9 @@ node_modules/
 package-lock.json
 yarn.lock
 
+# Dump files
+dump.json
+
 # Ignore build artifacts
 build/
 
