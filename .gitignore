@@ -8,6 +8,12 @@ node_modules/
 package-lock.json
 yarn.lock
 
+# Dump files
+dump.json
+
+# SurrealDb files
+surrealdb/
+
 # Ignore build artifacts
 build/
 
