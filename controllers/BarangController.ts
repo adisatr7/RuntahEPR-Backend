@@ -1,6 +1,6 @@
 import { Router, Request, Response } from "express"
 import db from "../database/index.js"
-import handleError from "../handleError.js"
+import handleError from "../utils/handleError.js"
 import { Barang } from "../models/BarangModel.js"
 
 
