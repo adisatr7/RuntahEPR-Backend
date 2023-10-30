@@ -1,5 +1,4 @@
 import Surreal from "surrealdb.js"
-import env from "../env.js"
 
 
 const db = new Surreal()
@@ -9,12 +8,12 @@ export async function initDB() {
         console.log("Initializing database...")
 
         // Validasi env
-        if (!env.SURREAL_DB_USER || !env.SURREAL_DB_PASSWORD || !env.SURREAL_DB_HOST) {
+        if (!process.env.SURREAL_DB_USER || !process.env.SURREAL_DB_PASSWORD || !process.env.SURREAL_DB_HOST) {
             throw new Error("DB_USERNAME or DB_PASSWORD not set")
         }
 
         // Hubungkan ke database
-        await db.connect(`${env.SURREAL_DB_HOST}/rpc`)
+        await db.connect(`${process.env.SURREAL_DB_HOST}/rpc`)
 
             // Jika berhasil
             .then(() => {
@@ -27,7 +26,7 @@ export async function initDB() {
             })
 
         // Login ke database
-        await db.signin({ user: env.SURREAL_DB_USER, pass: env.SURREAL_DB_PASSWORD })
+        await db.signin({ user: process.env.SURREAL_DB_USER, pass: process.env.SURREAL_DB_PASSWORD })
 
             // Jika berhasil
             .then((res) => {

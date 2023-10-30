@@ -1,9 +1,12 @@
 import express from "express"
 import cors from "cors"
-import env from "./env.js"
+import * as dotenv from "dotenv"
 import { initDB } from "./database/index.js";
 import barangController from "./controllers/BarangController.js"
 
+
+// Inisiasi env
+dotenv.config()
 
 // Inisiasi database
 initDB()
@@ -21,6 +24,6 @@ app.use(cors())
 app.use(barangController)
 
 
-app.listen(env.BACKEND_PORT, () => {
-    console.log(`Backend server is running on port ${env.BACKEND_PORT}!`)
+app.listen(process.env.BACKEND_PORT, () => {
+    console.log(`Backend server is running on port ${process.env.BACKEND_PORT}!`)
 })
