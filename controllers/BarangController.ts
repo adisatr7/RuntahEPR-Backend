@@ -9,16 +9,48 @@ const barangController = Router()
 
 /**
  * Endpoint untuk mengambil semua data barang
- *
- * TODO: Add pagination!!!
  */
 barangController.get("/api/barang", (req: Request, res: Response) => {
+
+    // Ambil parameter pagination dari URL
+    const page = parseInt(req.query.page as string)
+    const limit = parseInt(req.query.limit as string)
+
+    // Jika parameter pagination tidak ditemukan, tampilkan pesan error
+    if (!page || !limit)
+        return res.json({
+            status: "Error",
+            detail: "Please provide the parameter `page` and `limit`!",
+            example: "api/barang?page=2&limit=10"
+        })
+
     // Ambil semua data barang dari database
-    db.select("barang")
+    db.query("SELECT * FROM barang ORDER BY nama ASC LIMIT ($limit) START ($start)", {
+        limit,
+        start: page * limit
+    })
 
         // Jika berhasil, kirim data barang ke client
-        .then((data) => {
-            res.json(data)
+        .then(async (data) => {
+
+            // Ambil total data barang
+            const queryResult: any = await db.query("SELECT count() FROM barang GROUP BY count")
+            const totalData: number = queryResult[0].result[0]?.count || 0
+
+            let action: any = {
+                currentPage: page,
+                next: `api/barang?page=${page + 1}&limit=${limit}`,
+                totalData,
+                totalPages: Math.ceil(totalData / limit)
+            }
+
+            if (page > 1)
+                action.prev = `api/barang?page=${page - 1}&limit=${limit}`
+
+            res.json({
+                data: data[0].result,
+                action
+            })
         })
 
         // Jika terjadi error, kirim pesan error ke client
@@ -131,8 +163,6 @@ barangController.post("/api/barang", (req: Request, res: Response) => {
 
 /**
  * Endpoint untuk mengubah data barang
- *
- * ! Untested
  */
 barangController.patch("/api/barang/:id", (req: Request, res: Response) => {
     // Ambil id dari parameter
@@ -165,8 +195,6 @@ barangController.patch("/api/barang/:id", (req: Request, res: Response) => {
 
 /**
  * Endpoint untuk menghapus data barang
- *
- * ! Untested
  */
 barangController.delete("/api/barang/:id", (req: Request, res: Response) => {
     // Ambil id dari parameter
@@ -194,11 +222,12 @@ barangController.delete("/api/barang/:id", (req: Request, res: Response) => {
  * ! DEV ONLY: Endpoint untuk menambah banyak data barang
  */
 // barangController.post("/api/barang/bulk", (req: Request, res: Response) => {
+
 //     // Ambil data barang dari body
 //     const items: Barang[] = req.body
 
 //     // Jika data barang kosong, kirim pesan error ke client
-//     if (items.length === 0 || !items) {
+//     if (items.length === 0 || !items || !items[0]) {
 //         res.json(handleError(new Error("No item found")))
 //         return
 //     }
@@ -208,6 +237,13 @@ barangController.delete("/api/barang/:id", (req: Request, res: Response) => {
 //             // Pisahkan ID dari data barang
 //             const { kodeItem } = item
 //             delete item.kodeItem
+
+//             // Konversi data ke tipe data number
+//             item.konversiSatuanDasar = parseInt(item.konversiSatuanDasar as string)
+//             item.hargaPokok = parseInt(item.hargaPokok as string)
+//             item.hargaJual = parseInt(item.hargaJual as string)
+//             item.stok = parseInt(item.stok as string)
+//             item.stokMinimum = parseInt(item.stokMinimum as string)
 
 //             // Masukkan data barang ke database
 //             db.create(`barang:${kodeItem}`, { ...item })
@@ -226,7 +262,7 @@ barangController.delete("/api/barang/:id", (req: Request, res: Response) => {
 //         // Jika berhasil, kirim pesan sukses ke client
 //         res.json({
 //             status: "OK",
-//             detail: "All items has been added!"
+//             detail: `${items.length} item(s) has been added!`
 //         })
 //     }
 

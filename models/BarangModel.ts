@@ -6,11 +6,11 @@ export interface Barang {
     satuan: string
     merek: string
     satuanDasar: string
-    konversiSatuanDasar: number
-    hargaPokok: number
-    hargaJual: number
-    stok: number
-    stokMinimum: number
+    konversiSatuanDasar: number | string
+    hargaPokok: number | string
+    hargaJual: number | string
+    stok: number | string
+    stokMinimum: number | string
     tipeItem: string
     menggunakanSerial: string
     rak: string
