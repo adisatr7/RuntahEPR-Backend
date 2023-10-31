@@ -9,16 +9,48 @@ const barangController = Router()
 
 /**
  * Endpoint untuk mengambil semua data barang
- *
- * TODO: Add pagination!!!
  */
 barangController.get("/api/barang", (req: Request, res: Response) => {
+
+    // Ambil parameter pagination dari URL
+    const page = parseInt(req.query.page as string)
+    const limit = parseInt(req.query.limit as string)
+
+    // Jika parameter pagination tidak ditemukan, tampilkan pesan error
+    if (!page || !limit)
+        return res.json({
+            status: "Error",
+            detail: "Please provide the parameter `page` and `limit`!",
+            example: "api/barang?page=2&limit=10"
+        })
+
     // Ambil semua data barang dari database
-    db.select("barang")
+    db.query("SELECT * FROM barang ORDER BY nama ASC LIMIT ($limit) START ($start)", {
+        limit,
+        start: page * limit
+    })
 
         // Jika berhasil, kirim data barang ke client
-        .then((data) => {
-            res.json(data)
+        .then(async (data) => {
+
+            // Ambil total data barang
+            const queryResult: any = await db.query("SELECT count() FROM barang GROUP BY count")
+            const totalData: number = queryResult[0].result[0]?.count || 0
+
+            let action: any = {
+                currentPage: page,
+                next: `api/barang?page=${page + 1}&limit=${limit}`,
+                totalData,
+                totalPages: Math.ceil(totalData / limit)
+            }
+
+            if (page > 1)
+                action.prev = `api/barang?page=${page - 1}&limit=${limit}`
+
+            res.json({
+                data: data[0].result,
+                action
+            })
         })
 
         // Jika terjadi error, kirim pesan error ke client
