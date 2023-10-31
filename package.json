@@ -4,10 +4,7 @@
   "main": "app.ts",
   "type": "module",
   "scripts": {
-    "database": "dotenv -- cross-var surreal start --user %DB_USER% --pass %DB_PASSWORD% --log error file://./database/surrealdb",
-    "export": "dotenv cross-var surreal export --user %DB_USER% --pass %DB_PASSWORD% --database runtah --namespace runtah --conn http://0.0.0.0:8000 file://./database/export/export.surql",
-    "backend": "tsx watch app.ts",
-    "start": "concurrently \"yarn database\" \"yarn backend\""
+    "backend": "tsx watch app.ts"
   },
   "author": "adisatr7",
   "license": "MIT",
@@ -15,7 +12,6 @@
   "dependencies": {
     "@types/cors": "^2.8.15",
     "@types/express": "^4.17.20",
-    "concurrently": "^8.2.2",
     "cors": "^2.8.5",
     "cross-var": "^1.1.0",
     "dotenv": "^16.3.1",
