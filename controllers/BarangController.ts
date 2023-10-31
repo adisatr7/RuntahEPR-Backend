@@ -194,11 +194,12 @@ barangController.delete("/api/barang/:id", (req: Request, res: Response) => {
  * ! DEV ONLY: Endpoint untuk menambah banyak data barang
  */
 // barangController.post("/api/barang/bulk", (req: Request, res: Response) => {
+
 //     // Ambil data barang dari body
 //     const items: Barang[] = req.body
 
 //     // Jika data barang kosong, kirim pesan error ke client
-//     if (items.length === 0 || !items) {
+//     if (items.length === 0 || !items || !items[0]) {
 //         res.json(handleError(new Error("No item found")))
 //         return
 //     }
@@ -208,6 +209,13 @@ barangController.delete("/api/barang/:id", (req: Request, res: Response) => {
 //             // Pisahkan ID dari data barang
 //             const { kodeItem } = item
 //             delete item.kodeItem
+
+//             // Konversi data ke tipe data number
+//             item.konversiSatuanDasar = parseInt(item.konversiSatuanDasar as string)
+//             item.hargaPokok = parseInt(item.hargaPokok as string)
+//             item.hargaJual = parseInt(item.hargaJual as string)
+//             item.stok = parseInt(item.stok as string)
+//             item.stokMinimum = parseInt(item.stokMinimum as string)
 
 //             // Masukkan data barang ke database
 //             db.create(`barang:${kodeItem}`, { ...item })
@@ -226,7 +234,7 @@ barangController.delete("/api/barang/:id", (req: Request, res: Response) => {
 //         // Jika berhasil, kirim pesan sukses ke client
 //         res.json({
 //             status: "OK",
-//             detail: "All items has been added!"
+//             detail: `${items.length} item(s) has been added!`
 //         })
 //     }
 
