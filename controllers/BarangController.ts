@@ -163,8 +163,6 @@ barangController.post("/api/barang", (req: Request, res: Response) => {
 
 /**
  * Endpoint untuk mengubah data barang
- *
- * ! Untested
  */
 barangController.patch("/api/barang/:id", (req: Request, res: Response) => {
     // Ambil id dari parameter
@@ -197,8 +195,6 @@ barangController.patch("/api/barang/:id", (req: Request, res: Response) => {
 
 /**
  * Endpoint untuk menghapus data barang
- *
- * ! Untested
  */
 barangController.delete("/api/barang/:id", (req: Request, res: Response) => {
     // Ambil id dari parameter
